@@ -5,7 +5,7 @@
 Clone the repo locally:
 
 ```sh
-git clone https://github.com/bonifasiuskhris/crud_case.git pingcrm
+git clone https://github.com/bonifasiuskhris/crud_case.git
 cd crud_case
 ```
 
