@@ -67,3 +67,10 @@ Run the dev server (the output will give the address):
 ```sh
 php artisan serve
 ```
+
+Use this account to login with existing user admin
+
+```sh
+username: admin@gmail.com
+password: masterpassword
+```
