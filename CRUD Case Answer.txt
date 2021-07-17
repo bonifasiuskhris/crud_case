@@ -1,0 +1,4 @@
+please describe your suggestion from technical side ( the best solution which only need less effort, no need to write it on code )!
+
+Answer:
+My Suggestions are to make period list, employees list, and components list on separate table, so when create new payroll, we can select existing employee and component from that table (minimize duplicate entry)
