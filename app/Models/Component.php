@@ -9,8 +9,12 @@ class Component extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'name',
+    ];
+
     public function employees()
     {
-        return $this->hasManyThrough(Employee::class, EmployeeComponentRelation::class);
+        return $this->belongsToMany(Employee::class, 'employee_component_relation');
     }
 }

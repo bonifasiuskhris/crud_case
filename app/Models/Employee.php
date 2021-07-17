@@ -9,13 +9,23 @@ class Employee extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'emp_id',
+        'full_name',
+    ];
+
     public function components()
     {
-        return $this->hasManyThrough(Component::class, EmployeeComponentRelation::class);
+        return $this->belongsToMany(Component::class, 'employee_component_relation');
     }
 
     public function periods()
     {
-        return $this->hasManyThrough(Period::class, PeriodEmployeeRelation::class);
+        return $this->belongsToMany(Period::class, 'employee_component_relation');
+    }
+
+    public function payroll()
+    {
+        return $this->hasMany(EmployeeComponentRelation::class);
     }
 }

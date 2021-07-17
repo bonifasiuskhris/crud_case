@@ -14,7 +14,11 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        //
+        $employees = Employee::all();
+        $data = compact(
+            'employees'
+        );
+        return view('employee.index', $data);
     }
 
     /**
@@ -24,7 +28,7 @@ class EmployeeController extends Controller
      */
     public function create()
     {
-        //
+        return view('employee.create');
     }
 
     /**
@@ -35,7 +39,18 @@ class EmployeeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'full_name' => 'required|string|unique:employees',
+        ]);
+
+        $latest_employee = Employee::latest('created_at')->first('emp_id');
+        $latest_employee_id=$latest_employee->emp_id;
+        $employee= Employee::create([
+            'emp_id'=>++$latest_employee_id,
+            'full_name'=>$request->full_name,
+        ]);
+
+        return redirect('/employee')->with('status', 'employee Created!');
     }
 
     /**
@@ -57,7 +72,8 @@ class EmployeeController extends Controller
      */
     public function edit(Employee $employee)
     {
-        //
+        return view('employee.edit', compact('employee'));
+        
     }
 
     /**
@@ -69,7 +85,15 @@ class EmployeeController extends Controller
      */
     public function update(Request $request, Employee $employee)
     {
-        //
+        $request->validate([
+            'full_name' => 'required|unique:employees',
+        ]);
+
+        $employee->update([
+            'full_name'=>$request->full_name,
+        ]);
+
+        return redirect('/employee')->with('status', 'Employee Updated!');
     }
 
     /**
@@ -80,6 +104,7 @@ class EmployeeController extends Controller
      */
     public function destroy(Employee $employee)
     {
-        //
+        $employee->delete();
+        return redirect('/employee')->with('status', 'Employee Deleted!');
     }
 }

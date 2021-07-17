@@ -9,8 +9,15 @@ class Period extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'month_year',
+        'month',
+        'year',
+        'description',
+    ];
+
     public function employees()
     {
-        return $this->hasManyThrough(Employee::class, PeriodEmployeeRelation::class);
+        return $this->belongsToMany(Employee::class, 'period_employee_relation');
     }
 }

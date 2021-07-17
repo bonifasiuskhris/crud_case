@@ -14,7 +14,11 @@ class ComponentController extends Controller
      */
     public function index()
     {
-        //
+        $components = component::all();
+        $data = compact(
+            'components'
+        );
+        return view('component.index', $data);
     }
 
     /**
@@ -24,7 +28,7 @@ class ComponentController extends Controller
      */
     public function create()
     {
-        //
+        return view('component.create');
     }
 
     /**
@@ -35,7 +39,15 @@ class ComponentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|unique:components',
+        ]);
+
+        $component= Component::create([
+            'name'=>$request->name,
+        ]);
+
+        return redirect('/component')->with('status', 'Component Created!');
     }
 
     /**
@@ -57,7 +69,8 @@ class ComponentController extends Controller
      */
     public function edit(Component $component)
     {
-        //
+        $sel_component=$component;
+        return view('component.edit', compact('sel_component'));
     }
 
     /**
@@ -69,7 +82,15 @@ class ComponentController extends Controller
      */
     public function update(Request $request, Component $component)
     {
-        //
+        $request->validate([
+            'name' => 'required|string',
+        ]);
+
+        $component->update([
+            'name'=>$request->name,
+        ]);
+
+        return redirect('/component')->with('status', 'Component Created!');
     }
 
     /**
@@ -80,6 +101,7 @@ class ComponentController extends Controller
      */
     public function destroy(Component $component)
     {
-        //
+        $component->delete();
+        return redirect('/component')->with('status', 'Component Deleted!');
     }
 }

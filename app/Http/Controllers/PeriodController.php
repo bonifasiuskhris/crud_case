@@ -14,9 +14,9 @@ class PeriodController extends Controller
      */
     public function index()
     {
-        $period = Period::all();
+        $periods = Period::all();
         $data = compact(
-            'period'
+            'periods'
         );
         return view('period.index', $data);
     }
@@ -39,7 +39,21 @@ class PeriodController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'month_year' => 'required|unique:periods',
+            'description' => 'required',
+        ]);
+
+        $month = date('F', strtotime($request->month_year));
+        $year = date('Y', strtotime($request->month_year));
+        $period= Period::create([
+            'month_year'=>$request->month_year,
+            'month'=>$month,
+            'year'=>$year,
+            'description'=>$request->description,
+        ]);
+
+        return redirect('/period')->with('status', 'Period Created!');
     }
 
     /**
@@ -61,7 +75,7 @@ class PeriodController extends Controller
      */
     public function edit(Period $period)
     {
-        //
+        return view('period.edit', compact('period'));
     }
 
     /**
@@ -73,7 +87,21 @@ class PeriodController extends Controller
      */
     public function update(Request $request, Period $period)
     {
-        //
+        $request->validate([
+            'month_year' => 'required',
+            'description' => 'required',
+        ]);
+
+        $month = date('F', strtotime($request->month_year));
+        $year = date('Y', strtotime($request->month_year));
+        $period->update([
+            'month_year'=>$request->month_year,
+            'month'=>$month,
+            'year'=>$year,
+            'description'=>$request->description,
+        ]);
+
+        return redirect('/period')->with('status', 'Period Updated!');
     }
 
     /**
@@ -84,6 +112,7 @@ class PeriodController extends Controller
      */
     public function destroy(Period $period)
     {
-        //
+        $period->delete();
+        return redirect('/period')->with('status', 'Period Deleted!');
     }
 }

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ComponentController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\PeriodController;
 use Illuminate\Support\Facades\Route;
@@ -17,20 +18,24 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/', function () {
-        return view('index');
-    });
-    Route::get('/dashboard', function () {
-        return view('dashboard');
+    Route::get('/', [DashboardController::class, 'index'])->name('home');
+
+    Route::prefix('payroll')->group(function () {
+        Route::get('/create', [DashboardController::class, 'create']);
+        Route::get('/employee_list', [DashboardController::class, 'employee_list']);
+        Route::post('/store', [DashboardController::class, 'store']);
+        Route::get('/edit', [DashboardController::class, 'edit']);
+        Route::post('/update', [DashboardController::class, 'update']);
+        Route::get('/delete', [DashboardController::class, 'destroy']);
     });
 
     Route::resources([
-        'periods' => PeriodController::class,
-        'employees' => EmployeeController::class,
+        'period' => PeriodController::class,
+        'employee' => EmployeeController::class,
         'component' => ComponentController::class,
     ]);
 });
 
-
-
 require __DIR__.'/auth.php';
+
+
