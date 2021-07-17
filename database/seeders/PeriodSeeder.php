@@ -15,13 +15,13 @@ class PeriodSeeder extends Seeder
     public function run()
     {
         DB::table('periods')->insert([
-            'month_year' => '06-2021',
+            'month_year' => '2021-06',
             'month' => 'June',
             'year' => '2021',
             'description'=>'Monthly Adjustment'
         ]);
         DB::table('periods')->insert([
-            'month_year' => '07-2021',
+            'month_year' => '2021-07',
             'month' => 'July',
             'year' => '2021',
             'description'=>'Adjustment Semester 1'
